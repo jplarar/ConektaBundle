@@ -131,12 +131,12 @@ class ConektaClient
      * @param $customerId
      * @param $sourceId
      * @param int $shippingAmount
-     * @param string $sippingCarrier
+     * @param string $shippingCarrier
      * @param string $country
      * @param string $currency
      * @return mixed|string
      */
-    public function createCustomerOrder($name, $phone, $email, $productName, $unitPrice, $quantity, $street, $city, $state, $zipCode, $customerId, $sourceId, $shippingAmount = 0, $sippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN')
+    public function createCustomerOrder($name, $phone, $email, $productName, $unitPrice, $quantity, $street, $city, $state, $zipCode, $customerId, $sourceId, $shippingAmount = 0, $shippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN')
     {
         try {
             $order = Order::create(
@@ -156,7 +156,7 @@ class ConektaClient
                     $sourceId,
                     null,
                     $shippingAmount,
-                    $sippingCarrier,
+                    $shippingCarrier,
                     $country,
                     $currency
                 )
@@ -180,12 +180,12 @@ class ConektaClient
      * @param $state
      * @param $zipCode
      * @param int $shippingAmount
-     * @param string $sippingCarrier
+     * @param string $shippingCarrier
      * @param string $country
      * @param string $currency
      * @return mixed|string
      */
-    public function createOneTimeOrder($name, $phone, $email,$productName, $unitPrice, $quantity, $token, $street, $city, $state, $zipCode, $shippingAmount = 0, $sippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN')
+    public function createOneTimeOrder($name, $phone, $email,$productName, $unitPrice, $quantity, $token, $street, $city, $state, $zipCode, $shippingAmount = 0, $shippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN')
     {
         try {
             $order = Order::create(
@@ -205,7 +205,7 @@ class ConektaClient
                     null,
                     $token,
                     $shippingAmount,
-                    $sippingCarrier,
+                    $shippingCarrier,
                     $country,
                     $currency
                 )
@@ -228,12 +228,12 @@ class ConektaClient
      * @param $state
      * @param $zipCode
      * @param int $shippingAmount
-     * @param string $sippingCarrier
+     * @param string $shippingCarrier
      * @param string $country
      * @param string $currency
      * @return mixed|string
      */
-    public function createOxxoOrder($name, $phone, $email, $productName, $unitPrice, $quantity, $street, $city, $state, $zipCode, $shippingAmount = 0, $sippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN')
+    public function createOxxoOrder($name, $phone, $email, $productName, $unitPrice, $quantity, $street, $city, $state, $zipCode, $shippingAmount = 0, $shippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN')
     {
         try {
             $order = Order::create(
@@ -253,7 +253,7 @@ class ConektaClient
                     null,
                     null,
                     $shippingAmount,
-                    $sippingCarrier,
+                    $shippingCarrier,
                     $country,
                     $currency
                 )
@@ -276,12 +276,12 @@ class ConektaClient
      * @param $unitPrice
      * @param $quantity
      * @param int $shippingAmount
-     * @param string $sippingCarrier
+     * @param string $shippingCarrier
      * @param string $country
      * @param string $currency
      * @return mixed|string
      */
-    public function createSpeiOrder($name, $phone, $email, $street, $city, $state, $zipCode, $productName, $unitPrice, $quantity, $shippingAmount = 0, $sippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN')
+    public function createSpeiOrder($name, $phone, $email, $street, $city, $state, $zipCode, $productName, $unitPrice, $quantity, $shippingAmount = 0, $shippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN')
     {
         try {
             $order = Order::create(
@@ -301,7 +301,7 @@ class ConektaClient
                     null,
                     null,
                     $shippingAmount,
-                    $sippingCarrier,
+                    $shippingCarrier,
                     $country,
                     $currency
                     )
@@ -329,7 +329,7 @@ class ConektaClient
      * @param null $sourceId
      * @param null $token
      * @param int $shippingAmount
-     * @param string $sippingCarrier
+     * @param string $shippingCarrier
      * @param string $country
      * @param string $currency
      * @return array
@@ -350,7 +350,7 @@ class ConektaClient
         $sourceId = null,
         $token = null,
         $shippingAmount = 0,
-        $sippingCarrier = 'Fedex',
+        $shippingCarrier = 'Fedex',
         $country = 'MX',
         $currency = 'MXN') {
 
@@ -392,7 +392,7 @@ class ConektaClient
                 "shipping_lines" => array(
                     array(
                         "amount" => $shippingAmount,
-                        "carrier" => $sippingCarrier
+                        "carrier" => $shippingCarrier
                     )
                 ),
                 "charges" => array(
