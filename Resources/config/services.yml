@@ -1,0 +1,11 @@
+parameters:
+     conekta_client.class: Jplarar\ConektaBundle\Services\ConektaClient
+
+services:
+     Jplarar\ConektaBundle\Services\ConektaClient: "@conekta_client"
+     conekta_client:
+         class:     %conekta_client.class%
+         arguments: [%conekta_private_key%]
+         autowire: true
+
+
