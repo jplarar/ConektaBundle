@@ -20,7 +20,7 @@ class ConektaClient
 
     // Order types
     const PAYMENT_OXXO_CASH = 'oxxo_cash';
-    const PAYMENT_TOKEN = 'token';
+    const PAYMENT_TOKEN = 'token_id';
     const PAYMENT_CARD = 'card';
     const PAYMENT_SPEI = 'spei';
 
@@ -371,7 +371,7 @@ class ConektaClient
                 $paymentMethod = ["type" => self::PAYMENT_OXXO_CASH];
                 break;
             case self::PAYMENT_TOKEN:
-                $paymentMethod = ["type" => self::PAYMENT_CARD, "payment_source_id" => $token];
+                $paymentMethod = ["type" => self::PAYMENT_CARD, self::PAYMENT_TOKEN => $token];
                 break;
             default:
                 $paymentMethod = [];
