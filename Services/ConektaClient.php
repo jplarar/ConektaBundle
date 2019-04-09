@@ -72,7 +72,12 @@ class ConektaClient
                 "name" => preg_replace("/[^A-Za-z ]/", '', $fullName),
                 "email" => $email,
                 "phone" => $phoneNumber,
-                "token" => $token
+                "payment_sources" => array(
+                    array(
+                        "type" => "card",
+                        "token_id" => $token
+                    )
+                )//payment_sources
             )
         );
 
