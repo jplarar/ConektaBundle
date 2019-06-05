@@ -478,10 +478,9 @@ class ConektaClient
         try {
             /** @var Customer $customer */
             $customer = $this->getCustomer($customerId);
-
             /** @var \Conekta\PaymentSource $card */
             $card = $this->addPaymentSource($customerId, $token);
-
+            $customer->update(['default_payment_source_id' => $card['id']]);
             if ($status !== "canceled") {
                 $customer->subscription->update(
                     array(
