@@ -5,7 +5,7 @@ services:
      Jplarar\ConektaBundle\Services\ConektaClient: "@conekta_client"
      conekta_client:
          class:     %conekta_client.class%
-         arguments: [%conekta_private_key%]
+         arguments: [%conekta_private_key%, %conekta_sign_key%]
          autowire: true
 
 
