@@ -16,6 +16,8 @@ class ConektaClient
 {
     protected $service;
 
+    protected $signKey;
+
     const API_VER = "2.0.0";
 
     // Order types
@@ -44,13 +46,14 @@ class ConektaClient
 
     /**
      * ConektaClient constructor.
-     *
      * @param string $conekta_private_key
+     * @param string $conekta_sign_key
      */
-    public function __construct($conekta_private_key = "")
+    public function __construct($conekta_private_key = "", $conekta_sign_key = "")
     {
         Conekta::setApiKey($conekta_private_key);
         Conekta::setApiVersion(self::API_VER);
+        $this->signKey = $conekta_sign_key;
     }
 
     #########################
@@ -653,6 +656,34 @@ class ConektaClient
         } catch (\Exception $error) {
             return $error->getMessage();
         }
+    }
+
+
+    #########################
+    ##        Events       ##
+    #########################
+
+    /**
+     * @param $body
+     * @return bool
+     */
+    public function validateEvent($body)
+    {
+        $digest = $_SERVER['HTTP_DIGEST'] ?? null;
+        if (!empty($digest)) {
+            $private_key_string = $this->signKey;
+            if (!empty($private_key_string) && !empty($body)) {
+                $private_key = openssl_pkey_get_private($private_key_string, 'phrase');
+                $encrypted_message = base64_decode($digest);
+                $sha256_message = "";
+                openssl_private_decrypt($encrypted_message, $sha256_message, $private_key);
+                if (hash("sha256", $body) == $sha256_message) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
 }
