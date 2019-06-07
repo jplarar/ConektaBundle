@@ -25,7 +25,8 @@
       "symfony/http-kernel": "^2.0 || ^3.0",
       "symfony/options-resolver": "^2.0 || ^3.0",
       "symfony/validator": "^2.0 || ^3.0",
-      "conekta/conekta-php": "4.0.4"
+      "conekta/conekta-php": "4.0.4",
+      "ext-openssl": "^7.1"
     },
     "suggest": {
     },
