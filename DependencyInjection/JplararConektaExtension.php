@@ -26,7 +26,8 @@ class JplararConektaExtension extends Extension
         $loader->load('services.yml');
 
         $parameters = [
-            'conekta_private_key'
+            'conekta_private_key',
+            'conekta_sign_key'
         ];
 
         foreach ($parameters as $parameter) {

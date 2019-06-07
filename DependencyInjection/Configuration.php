@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
             ->scalarNode('conekta_private_key')->defaultValue(null)->end()
+            ->scalarNode('conekta_sign_key')->defaultValue(null)->end()
             ->end();
 
         return $treeBuilder;
