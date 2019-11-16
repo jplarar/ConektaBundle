@@ -7,7 +7,7 @@ use Conekta\Customer;
 use Conekta\PaymentSource;
 use Conekta\Subscription;
 use Conekta\Order;
-
+use Exception;
 /**
  * Class ConektaClient
  * @package Jplarar\ConektaBundle\Services
@@ -99,7 +99,7 @@ class ConektaClient
             $customer->delete();
 
             return true;
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return $error->getMessage();
         }
     }
@@ -116,7 +116,7 @@ class ConektaClient
             $customer = Customer::find($customerId);
 
             return $customer;
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return $error->getMessage();
         }
     }
@@ -142,9 +142,10 @@ class ConektaClient
      * @param string $shippingCarrier
      * @param string $country
      * @param string $currency
+     * @param $monthlyInstallments
      * @return mixed|string
      */
-    public function createCustomerOrder($name, $phone, $email, $productName, $unitPrice, $quantity, $street, $city, $state, $zipCode, $customerId, $sourceId, $shippingAmount = 0, $shippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN')
+    public function createCustomerOrder($name, $phone, $email, $productName, $unitPrice, $quantity, $street, $city, $state, $zipCode, $customerId, $sourceId, $shippingAmount = 0, $shippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN', $monthlyInstallments = 1)
     {
         try {
             $order = Order::create(
@@ -166,11 +167,12 @@ class ConektaClient
                     $shippingAmount,
                     $shippingCarrier,
                     $country,
-                    $currency
+                    $currency,
+                    $monthlyInstallments
                 )
             );
             return $order;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
@@ -191,9 +193,10 @@ class ConektaClient
      * @param string $shippingCarrier
      * @param string $country
      * @param string $currency
+     * @param $monthlyInstallments
      * @return mixed|string
      */
-    public function createOneTimeOrder($name, $phone, $email,$productName, $unitPrice, $quantity, $token, $street, $city, $state, $zipCode, $shippingAmount = 0, $shippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN')
+    public function createOneTimeOrder($name, $phone, $email,$productName, $unitPrice, $quantity, $token, $street, $city, $state, $zipCode, $shippingAmount = 0, $shippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN', $monthlyInstallments = 1)
     {
         try {
             $order = Order::create(
@@ -215,11 +218,12 @@ class ConektaClient
                     $shippingAmount,
                     $shippingCarrier,
                     $country,
-                    $currency
+                    $currency,
+                    $monthlyInstallments
                 )
             );
             return $order;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
@@ -267,7 +271,7 @@ class ConektaClient
                 )
             );
             return $order;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
@@ -315,7 +319,7 @@ class ConektaClient
                     )
             );
             return $order;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }
@@ -340,6 +344,7 @@ class ConektaClient
      * @param string $shippingCarrier
      * @param string $country
      * @param string $currency
+     * @param $monthlyInstallments
      * @return array
      */
     private function generateOrderPayload(
@@ -360,7 +365,9 @@ class ConektaClient
         $shippingAmount = 0,
         $shippingCarrier = 'Fedex',
         $country = 'MX',
-        $currency = 'MXN') {
+        $currency = 'MXN',
+        $monthlyInstallments = 1
+    ) {
 
         $customer = [
             "name" => preg_replace("/[^A-Za-z ]/", '', $name),
@@ -409,6 +416,11 @@ class ConektaClient
                     ) //first charge
                 ) //charges
             );//order
+
+        if (in_array($monthlyInstallments,[3, 6, 9, 12])) {
+            $order['charges'][0]['monthly_installments'] = $monthlyInstallments;
+        }
+
         return $order;
     }
 
@@ -464,7 +476,7 @@ class ConektaClient
             );
 
             return $subscription;
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return $error->getMessage();
         }
     }
@@ -493,7 +505,7 @@ class ConektaClient
             }
 
             return $card;
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return $error->getMessage();
         }
     }
@@ -517,7 +529,7 @@ class ConektaClient
             );
 
             return $subscription;
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return $error->getMessage();
         }
     }
@@ -535,7 +547,7 @@ class ConektaClient
             /** @var Subscription $subscription */
             $subscription = $customer->subscription->cancel();
             return $subscription;
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return $error->getMessage();
         }
     }
@@ -553,7 +565,7 @@ class ConektaClient
             $subscription = $customer->subscription;
 
             return $subscription;
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return $error->getMessage();
         }
     }
@@ -580,7 +592,7 @@ class ConektaClient
                 }
             }
             return $payment_source;
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return $error->getMessage();
         }
     }
@@ -619,7 +631,7 @@ class ConektaClient
             $customer->deletePaymentSourceById($sourceId);
 
             return $customer;
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return $error->getMessage();
         }
     }
@@ -653,7 +665,7 @@ class ConektaClient
                 }
             }
             return $source;
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return $error->getMessage();
         }
     }
