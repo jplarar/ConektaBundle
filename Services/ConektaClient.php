@@ -418,7 +418,7 @@ class ConektaClient
             );//order
 
         if (in_array($monthlyInstallments,[3, 6, 9, 12])) {
-            $order['charges'][0]['monthly_installments'] = $monthlyInstallments;
+            $order['charges'][0]["payment_method"]['monthly_installments'] = $monthlyInstallments;
         }
 
         return $order;
