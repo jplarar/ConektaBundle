@@ -453,6 +453,22 @@ class ConektaClient
         );
     }
 
+    /**
+     * @param $id
+     * @param $reason
+     * @return mixed|string
+     */
+    public function refundOneTimeOrder($id, $reason)
+    {
+        $order = \Conekta\Order::find($id);
+        try {
+            $order->refund(['reason' => $reason]);
+            return $order;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
     #########################
     ##     Subscription    ##
     #########################
