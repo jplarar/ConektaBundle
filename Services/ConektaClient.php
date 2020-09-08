@@ -243,10 +243,12 @@ class ConektaClient
      * @param string $shippingCarrier
      * @param string $country
      * @param string $currency
+     * @param $expiration_date
      * @return mixed|string
      */
-    public function createOxxoOrder($name, $phone, $email, $productName, $unitPrice, $quantity, $street, $city, $state, $zipCode, $shippingAmount = 0, $shippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN')
+    public function createOxxoOrder($name, $phone, $email, $productName, $unitPrice, $quantity, $street, $city, $state, $zipCode, $shippingAmount = 0, $shippingCarrier = 'Fedex', $country = 'MX', $currency = 'MXN', $expiration_date = null)
     {
+        if (!$expiration_date) $expiration_date = (new DateTime())->add(new DateInterval('P30D'))->getTimestamp();
         try {
             $order = Order::create(
                 $this->generateOrderPayload(
@@ -267,7 +269,8 @@ class ConektaClient
                     $shippingAmount,
                     $shippingCarrier,
                     $country,
-                    $currency
+                    $currency,
+                    $expiration_date
                 )
             );
             return $order;
@@ -316,7 +319,7 @@ class ConektaClient
                     $shippingCarrier,
                     $country,
                     $currency
-                    )
+                )
             );
             return $order;
         } catch (Exception $e) {
@@ -344,6 +347,7 @@ class ConektaClient
      * @param string $shippingCarrier
      * @param string $country
      * @param string $currency
+     * @param $expiration_date
      * @param $monthlyInstallments
      * @return array
      */
@@ -366,6 +370,7 @@ class ConektaClient
         $shippingCarrier = 'Fedex',
         $country = 'MX',
         $currency = 'MXN',
+        $expiration_date,
         $monthlyInstallments = 1
     ) {
 
@@ -383,7 +388,7 @@ class ConektaClient
                 $paymentMethod = ["type" => self::PAYMENT_CARD, "payment_source_id" => $sourceId];
                 break;
             case self::PAYMENT_OXXO_CASH:
-                $paymentMethod = ["type" => self::PAYMENT_OXXO_CASH];
+                $paymentMethod = ["type" => self::PAYMENT_OXXO_CASH, "expires_at" => $expiration_date];
                 break;
             case self::PAYMENT_TOKEN:
                 $paymentMethod = ["type" => self::PAYMENT_CARD, self::PAYMENT_TOKEN => $token];
