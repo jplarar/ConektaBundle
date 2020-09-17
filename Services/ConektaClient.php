@@ -7,6 +7,8 @@ use Conekta\Customer;
 use Conekta\PaymentSource;
 use Conekta\Subscription;
 use Conekta\Order;
+use DateInterval;
+use DateTime;
 use Exception;
 /**
  * Class ConektaClient
@@ -168,6 +170,7 @@ class ConektaClient
                     $shippingCarrier,
                     $country,
                     $currency,
+                    null,
                     $monthlyInstallments
                 )
             );
@@ -219,6 +222,7 @@ class ConektaClient
                     $shippingCarrier,
                     $country,
                     $currency,
+                    null,
                     $monthlyInstallments
                 )
             );
@@ -318,7 +322,8 @@ class ConektaClient
                     $shippingAmount,
                     $shippingCarrier,
                     $country,
-                    $currency
+                    $currency,
+                    null
                 )
             );
             return $order;
@@ -370,7 +375,7 @@ class ConektaClient
         $shippingCarrier = 'Fedex',
         $country = 'MX',
         $currency = 'MXN',
-        $expiration_date,
+        $expiration_date = null,
         $monthlyInstallments = 1
     ) {
 
